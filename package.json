@@ -1,7 +1,7 @@
 {
     "name": "recurve-storage",
     "author": "Sebastien Couture",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "main": "src/recurve-storage.js",
     "description": "Local and session storage wrapper Javascript library for the browser",
     "repository": {

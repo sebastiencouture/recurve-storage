@@ -1,6 +1,6 @@
 {
   "name": "recurve-storage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Sebastien Couture",
   "main": "dist/recurve-storage.js",
   "license": "MIT",

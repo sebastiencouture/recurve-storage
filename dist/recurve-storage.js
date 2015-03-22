@@ -1,5 +1,5 @@
 /*!
-recurve-storage.js - v0.1.0
+recurve-storage.js - v0.1.1
 Created by Sebastien Couture on 2015-03-22.
 
 git://github.com/sebastiencouture/recurve-storage.git
