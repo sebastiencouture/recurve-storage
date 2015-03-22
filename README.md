@@ -1,4 +1,4 @@
-Recurve Storage [![Build Status](https://secure.travis-ci.org/sebastiencouture/recurve-storage.png?branch=master)](https://travis-ci.org/sebastiencouture/recurve-storage)
+recurve-storage [![Build Status](https://secure.travis-ci.org/sebastiencouture/recurve-storage.png?branch=master)](https://travis-ci.org/sebastiencouture/recurve-storage)
 ===
 
 Local and session storage wrapper library for the browser. Support for object serialization and caching. Graceful degradation
