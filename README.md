@@ -2,7 +2,7 @@ recurve-storage [![Build Status](https://secure.travis-ci.org/sebastiencouture/r
 ===
 
 Local and session storage wrapper Javascript library for the browser. Support for object serialization and caching. Graceful degradation
-with caching for older browsers and private browsing mode in Safari with no storage.
+with caching for no storage support due to private browsing mode in difficult to handle Safari.
 
 ## Usage
 
@@ -28,8 +28,8 @@ var mySessionStorage = new Storage.Session();
 ```
 
 Enable caching by returning a cache instance in the constructor options through the `createCache` method. The code
-below enables caching regardless if there is support (private browsing mode, old browsers). Always caching can be useful
-if you run into bottlenecks due to calls to storage.
+below enables caching regardless if there is support (private browsing mode). Always caching can also be useful
+if you run into performance bottlenecks due to many calls to storage.
 
 The cache object needs to implement two methods: `get` and `set`. [recurve-cache](http://github.com/sebastiencouture/recurve-cache) is a compatible cache.
 ```javascript
@@ -42,7 +42,7 @@ new Storage.Local({
 ```
 
 `createCache` is called with a boolean `isSupported` parameter, so you can optionally only include caching if there is
-no support for storage. This can be useful for graceful degradation with older browsers or if in private browsing mode on Safari.
+no support for storage. This can be useful for graceful degradation if in private browsing mode in Safari.
 ```javascript
 var Cache = require("recurve-cache");
 new Storage.Local({
@@ -87,7 +87,7 @@ bower install recurve-storage
 
 ## Browser Support
 
-IE8+, but optional graceful degradation support with caching for older browsers.
+IE8+
 
 ## License
 
