@@ -11,7 +11,7 @@ with caching for older browsers and private browsing mode in Safari with no stor
 ```javascript
 var myLocalStorage = new Storage.Local();
 
-myLocalStorage.set("a", {a: 1});
+myLocalStorage.set("a", {something: 1});
 myLocalStorage.get("a"); // returns the object
 
 // iterate all values
