@@ -8,6 +8,22 @@ module.exports = Storage;
  * Local and session storage wrapper library for the browser. Support for object serialization and caching. Graceful degradation
  * with caching for older browsers and private browsing mode in Safari with no storage.
  *
+ * @example
+ * var myLocalStorage = new Storage.Local({
+ *      createCache: function(isSupported) {
+ *          return isSupported ? null : new Cache();
+ *      }
+ * });
+ *
+ * @example
+ * var mockedLocalStorage = new Storage.Local({
+ *      provider: {
+ *          getItem: function() {...},
+ *          removeItem: function() {...},
+ *          clear: function() {...}
+ *     }
+ * });
+ *
  * @param options options.provider (localStorage, sessionStorage, mock), options.createCache method
  * to create a cache instance.
  * @constructor
@@ -32,7 +48,7 @@ function Storage(options) {
 
 Storage.prototype = {
     /**
-     * Retrieve a stored value
+     * Retrieve a value from storage
      *
      * @param key
      * @returns {*}
@@ -56,7 +72,7 @@ Storage.prototype = {
     },
 
     /**
-     * Save a value
+     * Save a value to storage
      *
      * @param key
      * @param value
@@ -90,6 +106,7 @@ Storage.prototype = {
     },
 
     /**
+     * Check if an item exists in storage
      *
      * @param key
      * @returns {boolean} true if a value exists for the key, false otherwise
@@ -110,7 +127,7 @@ Storage.prototype = {
     },
 
     /**
-     * Clear all stored values
+     * Clear all values in storage
      */
     clear: function() {
         if (this._cache) {
@@ -122,7 +139,8 @@ Storage.prototype = {
     },
 
     /**
-     * Iterate through all stored key value pairs
+     * Iterate through all values in storage
+     *
      * @param iterator callback method. (value, key) are passed as parameters for each value in storage
      * @param context of the iterator
      */
