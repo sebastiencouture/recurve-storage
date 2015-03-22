@@ -31,7 +31,7 @@ Enable caching by returning a cache instance in the constructor options through 
 below enables caching regardless if there is support (private browsing mode, old browsers). Always caching can be useful
 if you run into bottlenecks due to calls to storage.
 
-The cache object needs to implement two methods: `get` and `set`. (recurve-cache)[http://github.com/sebastiencouture/recurve-cache] is compatible.
+The cache object needs to implement two methods: `get` and `set`. [recurve-cache](http://github.com/sebastiencouture/recurve-cache) is a compatible cache.
 ```javascript
 var Cache = require("recurve-cache");
 new Storage.Local({
