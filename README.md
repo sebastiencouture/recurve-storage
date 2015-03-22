@@ -66,7 +66,7 @@ new Storage.Local({
 
 Passing null for `getItem`, and `setItem` can be useful for testing no storage/private browsing mode in Safari.
 
-For more examples, take a look at the [unit tests](test/recurve-storage.spec.js)
+For more examples, take a look at the [unit tests](test/storage.spec.js)
 
 ## Running the Tests
 
