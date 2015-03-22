@@ -44,11 +44,25 @@ new Storage.Local({
 no support for storage. This can be useful for graceful degradation with older browsers or if in private browsing mode on Safari.
 ```javascript
 var Cache = require("recurve-cache");
-var Storage.Local({
+new Storage.Local({
     createCache: function(isSupported) {
         return isSupported ? null : new Cache();
     }
 });
+```
+
+Need to mock local and session storage for unit tests? Pass in a mock `provider` to the constructor options. The `provider`
+needs to implement three methods: `getItem`, `setItem`, and `clear`
+```javascript
+new Storage.Local({
+    provider: {
+        getItem: function() {...},
+        setItem: function() {...},
+        clear: function() {...}
+    }
+});
+
+Passing null for `getItem`, and `setItem` can be useful for testing no storage/private browsing mode in Safari.
 ```
 
 For more examples, take a look at the [unit tests](test/recurve-storage.spec.js)

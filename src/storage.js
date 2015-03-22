@@ -4,6 +4,14 @@ var utils = require("./utils");
 
 module.exports = Storage;
 
+/**
+ * Local and session storage wrapper library for the browser. Support for object serialization and caching. Graceful degradation
+ * with caching for older browsers and private browsing mode in Safari with no storage.
+ *
+ * @param options options.provider (localStorage, sessionStorage, mock), options.createCache method
+ * to create a cache instance.
+ * @constructor
+ */
 function Storage(options) {
     if (!options) {
        throw new Error("expected options to be defined");
@@ -23,6 +31,12 @@ function Storage(options) {
 }
 
 Storage.prototype = {
+    /**
+     * Retrieve a stored value
+     *
+     * @param key
+     * @returns {*}
+     */
     get: function(key) {
         var value = null;
         if (this._cache) {
@@ -41,6 +55,12 @@ Storage.prototype = {
         return value;
     },
 
+    /**
+     * Save a value
+     *
+     * @param key
+     * @param value
+     */
     set: function(key, value) {
         if (this._provider) {
             var serialized = serialize(value);
@@ -51,6 +71,12 @@ Storage.prototype = {
         }
     },
 
+    /**
+     * Remove a value from storage
+     *
+     * @param key
+     * @returns {boolean} true if a value was removed, false otherwise
+     */
     remove: function(key) {
         var existed = this.exists(key);
         if (this._cache) {
@@ -63,6 +89,11 @@ Storage.prototype = {
         return existed;
     },
 
+    /**
+     *
+     * @param key
+     * @returns {boolean} true if a value exists for the key, false otherwise
+     */
     exists: function(key) {
         var found = false;
         if (this._cache) {
@@ -78,6 +109,9 @@ Storage.prototype = {
         return found;
     },
 
+    /**
+     * Clear all stored values
+     */
     clear: function() {
         if (this._cache) {
             this._cache.clear();
@@ -87,6 +121,11 @@ Storage.prototype = {
         }
     },
 
+    /**
+     * Iterate through all stored key value pairs
+     * @param iterator callback method. (value, key) are passed as parameters for each value in storage
+     * @param context of the iterator
+     */
     forEach: function(iterator, context) {
         if (this._cache) {
             this._cache.forEach(iterator, context);
