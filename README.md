@@ -39,6 +39,7 @@ new Storage.Local({
         return new Cache();
     }
 });
+```
 
 `createCache` is called with a boolean `isSupported` parameter, so you can optionally only include caching if there is
 no support for storage. This can be useful for graceful degradation with older browsers or if in private browsing mode on Safari.
@@ -61,9 +62,9 @@ new Storage.Local({
         clear: function() {...}
     }
 });
+```
 
 Passing null for `getItem`, and `setItem` can be useful for testing no storage/private browsing mode in Safari.
-```
 
 For more examples, take a look at the [unit tests](test/recurve-storage.spec.js)
 
