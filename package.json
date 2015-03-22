@@ -1,7 +1,8 @@
 {
     "name": "recurve-storage",
     "author": "Sebastien Couture",
-    "version": "0.0.0",
+    "version": "0.1.0",
+    "main": "src/recurve-storage.js",
     "repository": {
         "type": "git",
         "url": "git://github.com/sebastiencouture/recurve-storage.git"
@@ -13,7 +14,6 @@
     "scripts": {
         "test": "grunt test"
     },
-    "main": "./src/recurve-storage",
     "devDependencies": {
         "grunt": "~0.4.2",
         "grunt-contrib-jshint": "~0.10.0",
