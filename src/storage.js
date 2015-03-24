@@ -8,41 +8,21 @@ module.exports = Storage;
  * Local and session storage wrapper library for the browser. Support for object serialization and caching. Graceful degradation
  * with caching for older browsers and private browsing mode in Safari with no storage.
  *
- * @example
- * var myLocalStorage = new Storage.Local({
- *      createCache: function(isSupported) {
- *          return isSupported ? null : new Cache();
- *      }
- * });
- *
- * @example
- * var mockedLocalStorage = new Storage.Local({
- *      provider: {
- *          getItem: function() {...},
- *          removeItem: function() {...},
- *          clear: function() {...}
- *     }
- * });
- *
- * @param options options.provider (localStorage, sessionStorage, mock), options.createCache method
- * to create a cache instance.
+ * @param provider windows.localStorage, windows.sessionStorage, mock storage
+ * @param createCache method that returns a cache (implements getItem, setItem and clear) or null
  * @constructor
  */
-function Storage(options) {
-    if (!options) {
-       throw new Error("expected options to be defined");
-    }
-
-    var supported = isSupported(options.provider);
+function Storage(provider, createCache) {
+    var supported = isSupported(provider);
     if (supported) {
-        this._provider = options.provider;
+        this._provider = provider;
     }
     else {
         this._provider = null;
     }
 
-    if (options.createCache) {
-        this._cache = options.createCache(supported);
+    if (createCache) {
+        this._cache = createCache(supported);
     }
 }
 

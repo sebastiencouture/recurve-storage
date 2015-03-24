@@ -2,65 +2,72 @@ recurve-storage [![Build Status](https://secure.travis-ci.org/sebastiencouture/r
 ===
 
 Local and session storage wrapper Javascript library for the browser. Support for object serialization and caching. Graceful degradation
-with caching for no storage support due to private browsing mode in difficult to handle Safari.
+with caching for no storage support due to older browsers and private browsing mode in Safari.
 
 ## Usage
 
 ### Example
 
-```javascript
-var myLocalStorage = new Storage.Local();
+Local storage
 
-myLocalStorage.set("a", {something: 1});
-myLocalStorage.get("a"); // returns the object
+```javascript
+var local = new Storage(window.localStorage);
+
+local.set("a", {something: 1});
+local.get("a"); // returns the object
 
 // iterate all values
-myLocalStorage.forEach(function(value, key) {
+local.forEach(function(value, key) {
 }, this);
 
-myLocalStorage.remove("a");
-myLocalStorage.exits("a"); // false
-myLocalStorage.clear(); // clear everything in local storage
+local.remove("a");
+local.exits("a"); // false
+local.clear(); // clear everything in local storage
 ```
+
+Session storage
 
 ```javascript
-var mySessionStorage = new Storage.Session();
+var session = new Storage(window.sessionStorage);
 ```
 
-Enable caching by returning a cache instance in the constructor options through the `createCache` method. The code
-below enables caching regardless if there is support (private browsing mode). Always caching can also be useful
-if you run into performance bottlenecks due to many calls to storage.
+Mocked storage
+
+```javascript
+var mocked = new Storage({
+    getItem: function() {...},
+    removeItem: function() {...},
+    clear: function() {...}
+});
+
+Enable caching by providing a factory method that returns a cache instance. The code
+below enables caching regardless if there is support (private browsing mode in Safari). Always caching can also be useful
+if you run into performance bottlenecks due to factors such as numerous repeated calls to storage.
 
 The cache object needs to implement two methods: `get` and `set`. [recurve-cache](http://github.com/sebastiencouture/recurve-cache) is a compatible cache.
 ```javascript
 var Cache = require("recurve-cache");
-new Storage.Local({
-    createCache: function() {
-        return new Cache();
-    }
+new Storage(window.localStorage, function() {
+    return new Cache();
 });
 ```
 
-`createCache` is called with a boolean `isSupported` parameter, so you can optionally only include caching if there is
-no support for storage. This can be useful for graceful degradation if in private browsing mode in Safari.
+The method is also called with an `isSupported` parameter so you can optionally only include caching if there is
+no support for storage. This can be useful for graceful degradation with older browsers and private browsing mode in Safari.
 ```javascript
 var Cache = require("recurve-cache");
-new Storage.Local({
-    createCache: function(isSupported) {
-        return isSupported ? null : new Cache();
-    }
+new Storage(window.localStorage, function(isSupported) {
+    return isSupported ? null : new Cache();
 });
 ```
 
-Need to mock local and session storage for unit tests? Pass in a mock `provider` to the constructor options. The `provider`
+Need to mock local and session storage for unit tests? Pass in a mock `provider`. The `provider`
 needs to implement three methods: `getItem`, `setItem`, and `clear`
 ```javascript
-new Storage.Local({
-    provider: {
-        getItem: function() {...},
-        setItem: function() {...},
-        clear: function() {...}
-    }
+new Storage({
+     getItem: function() {...},
+     setItem: function() {...},
+     clear: function() {...}
 });
 ```
 
@@ -88,6 +95,8 @@ bower install recurve-storage
 ## Browser Support
 
 IE8+
+
+IE6+ with JSON polyfill such as [json3](https://bestiejs.github.io/json3/)
 
 ## License
 

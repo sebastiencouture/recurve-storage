@@ -19,25 +19,18 @@ describe("storage", function() {
             var storage;
 
             beforeEach(function() {
-                var options = {};
                 if (disableNative) {
-                    options.provider = {
+                    provider = {
                         setItem: null,
                         removeItem: null
                     };
                 }
 
-                options.createCache = function(isSupported) {
+                function createCache(isSupported) {
                     return !isSupported || cache ? new Cache() : null;
-                };
-
-                if (provider === window.localStorage) {
-                    storage = new Storage.Local(options);
-                }
-                else {
-                    storage = new Storage.Session(options);
                 }
 
+                storage = new Storage(provider, createCache);
                 storage.clear();
             });
 
