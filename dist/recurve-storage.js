@@ -1,6 +1,6 @@
 /*!
-recurve-storage.js - v0.1.2
-Created by Sebastien Couture on 2015-03-22.
+recurve-storage.js - v0.2.0
+Created by Sebastien Couture on 2015-03-23.
 
 git://github.com/sebastiencouture/recurve-storage.git
 
@@ -29,42 +29,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Storage = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
-var Storage = require("./storage");
-var utils = require("./utils");
-
-function LocalStorage(options) {
-    options = options || {};
-    options.provider = options.provider || window.localStorage;
-    Storage.apply(this, arguments);
-}
-LocalStorage.prototype = {};
-utils.extend(LocalStorage, Storage);
-
-module.exports = LocalStorage;
-},{"./storage":4,"./utils":5}],2:[function(require,module,exports){
-"use strict";
-
-module.exports.Session = require("./session-storage");
-module.exports.Local = require("./local-storage");
-},{"./local-storage":1,"./session-storage":3}],3:[function(require,module,exports){
-"use strict";
-
-var Storage = require("./storage");
-var utils = require("./utils");
-
-function SessionStorage(options) {
-    options = options || {};
-    options.provider = options.provider || window.sessionStorage;
-    Storage.apply(this, arguments);
-}
-SessionStorage.prototype = {};
-utils.extend(SessionStorage, Storage);
-
-module.exports = SessionStorage;
-
-
-
-},{"./storage":4,"./utils":5}],4:[function(require,module,exports){
+module.exports = require("./storage");
+},{"./storage":2}],2:[function(require,module,exports){
 "use strict";
 
 var utils = require("./utils");
@@ -75,41 +41,21 @@ module.exports = Storage;
  * Local and session storage wrapper library for the browser. Support for object serialization and caching. Graceful degradation
  * with caching for older browsers and private browsing mode in Safari with no storage.
  *
- * @example
- * var myLocalStorage = new Storage.Local({
- *      createCache: function(isSupported) {
- *          return isSupported ? null : new Cache();
- *      }
- * });
- *
- * @example
- * var mockedLocalStorage = new Storage.Local({
- *      provider: {
- *          getItem: function() {...},
- *          removeItem: function() {...},
- *          clear: function() {...}
- *     }
- * });
- *
- * @param options options.provider (localStorage, sessionStorage, mock), options.createCache method
- * to create a cache instance.
+ * @param provider windows.localStorage, windows.sessionStorage, mock storage
+ * @param createCache method that returns a cache (implements getItem, setItem and clear) or null
  * @constructor
  */
-function Storage(options) {
-    if (!options) {
-       throw new Error("expected options to be defined");
-    }
-
-    var supported = isSupported(options.provider);
+function Storage(provider, createCache) {
+    var supported = isSupported(provider);
     if (supported) {
-        this._provider = options.provider;
+        this._provider = provider;
     }
     else {
         this._provider = null;
     }
 
-    if (options.createCache) {
-        this._cache = options.createCache(supported);
+    if (createCache) {
+        this._cache = createCache(supported);
     }
 }
 
@@ -259,7 +205,7 @@ function isSupported(provider) {
 
     return true;
 }
-},{"./utils":5}],5:[function(require,module,exports){
+},{"./utils":3}],3:[function(require,module,exports){
 "use strict";
 
 function toJson(obj) {
@@ -312,5 +258,5 @@ module.exports = {
     generateUUID: generateUUID,
     extend: extend
 };
-},{}]},{},[2])(2)
+},{}]},{},[1])(1)
 });
